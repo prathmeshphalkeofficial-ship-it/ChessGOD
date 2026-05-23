@@ -113,18 +113,37 @@ body {
 
 /* ═══ Animations ═══ */
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes fade-in-up {
@@ -132,6 +151,7 @@ body {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -139,8 +159,13 @@ body {
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scale-in {
@@ -148,6 +173,7 @@ body {
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -155,15 +181,23 @@ body {
 }
 
 @keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes glow-pulse-border {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: rgba(59, 130, 246, 0.2);
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
   }
+
   50% {
     border-color: rgba(59, 130, 246, 0.5);
     box-shadow: 0 0 30px rgba(59, 130, 246, 0.25);
@@ -171,14 +205,32 @@ body {
 }
 
 @keyframes board-square-glow {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 0.3; }
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
 }
 
 @keyframes neural-pulse {
-  0% { r: 2; opacity: 0.8; }
-  50% { r: 4; opacity: 0.3; }
-  100% { r: 2; opacity: 0.8; }
+  0% {
+    r: 2;
+    opacity: 0.8;
+  }
+
+  50% {
+    r: 4;
+    opacity: 0.3;
+  }
+
+  100% {
+    r: 2;
+    opacity: 0.8;
+  }
 }
 
 @keyframes slide-in-left {
@@ -186,6 +238,7 @@ body {
     opacity: 0;
     transform: translateX(-40px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -197,6 +250,7 @@ body {
     opacity: 0;
     transform: translateX(40px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -209,11 +263,13 @@ body {
     transform: scale(0.8) translateY(10px);
     filter: blur(4px);
   }
+
   60% {
     opacity: 1;
     transform: scale(1.05) translateY(-2px);
     filter: blur(0);
   }
+
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -222,14 +278,41 @@ body {
 }
 
 @keyframes board-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
-  70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 15px rgba(59, 130, 246, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
 }
 
 @keyframes pressure-critical {
-  0%, 100% { background-color: rgba(220, 38, 38, 0.1); }
-  50% { background-color: rgba(220, 38, 38, 0.25); }
+
+  0%,
+  100% {
+    background-color: rgba(220, 38, 38, 0.1);
+  }
+
+  50% {
+    background-color: rgba(220, 38, 38, 0.25);
+  }
+}
+
+@keyframes timer-critical {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
 /* ═══ Utility Classes ═══ */
@@ -271,6 +354,10 @@ body {
   animation: pressure-critical 1.5s ease-in-out infinite;
 }
 
+.animate-timer-critical {
+  animation: timer-critical 0.8s ease-in-out infinite;
+}
+
 .animate-slide-left {
   animation: slide-in-left 0.6s ease-out forwards;
 }
@@ -280,16 +367,34 @@ body {
 }
 
 /* Stagger children */
-.stagger-children > * {
+.stagger-children>* {
   opacity: 0;
   animation: fade-in-up 0.6s ease-out forwards;
 }
-.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
-.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
-.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
-.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
-.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
-.stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+
+.stagger-children>*:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stagger-children>*:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stagger-children>*:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.stagger-children>*:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.stagger-children>*:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.stagger-children>*:nth-child(6) {
+  animation-delay: 0.6s;
+}
 
 /* ═══ Custom React-Chessboard Overrides ═══ */
 .chessgod-board {

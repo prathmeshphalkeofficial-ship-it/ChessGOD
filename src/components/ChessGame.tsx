@@ -7,6 +7,7 @@ import { EngineWorker } from "@/lib/stockfish";
 import { PredictionResult, calculatePredictions } from "@/lib/prediction";
 import { PressureAnalysis, analyzePressure } from "@/lib/pressure";
 import { AI_DIALOGUE } from "@/lib/constants";
+import { useSoundEffects, SoundType } from "@/hooks/useSoundEffects";
 
 interface ChessGameProps {
   modeDepth: number;
@@ -17,6 +18,10 @@ interface ChessGameProps {
   onAIDialogue: (msg: string) => void;
   onMoveComplete: (moveStr: string) => void;
   onPredictionReveal: (reveal: boolean) => void;
+  onTurnSwitch?: () => void;
+  onAIBanter?: (msg: string) => void;
+  onSoundPlay?: (type: SoundType) => void;
+  onMoveHistory?: (san: string, fen: string) => void;
 }
 
 export default function ChessGame({
@@ -28,6 +33,10 @@ export default function ChessGame({
   onAIDialogue,
   onMoveComplete,
   onPredictionReveal,
+  onTurnSwitch,
+  onAIBanter,
+  onSoundPlay,
+  onMoveHistory,
 }: ChessGameProps) {
   const [game, setGame] = useState(new Chess());
   const engineRef = useRef<EngineWorker | null>(null);
@@ -38,10 +47,10 @@ export default function ChessGame({
   // Initialize Engine
   useEffect(() => {
     engineRef.current = new EngineWorker();
-    
+
     // Initial prediction & dialogue
     onAIDialogue(AI_DIALOGUE.GREETINGS[Math.floor(Math.random() * AI_DIALOGUE.GREETINGS.length)]);
-    
+
     if (isAiVsAi) {
       setTimeout(() => {
         executeEngineMove(game);
@@ -53,12 +62,12 @@ export default function ChessGame({
     return () => {
       if (engineRef.current) engineRef.current.terminate();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updatePredictions = async (currentGame: Chess) => {
     if (!engineRef.current || currentGame.isGameOver() || isAiVsAi) return;
-    
+
     if (currentGame.turn() === 'w') {
       const { lines } = await engineRef.current.evaluatePosition(currentGame.fen(), 10);
       const isOpening = currentGame.moveNumber() < 10;
@@ -69,40 +78,44 @@ export default function ChessGame({
 
   const executeEngineMove = async (currentGame: Chess, previousHumanMove?: string) => {
     if (!engineRef.current || currentGame.isGameOver()) return;
-    
+
     setIsEngineThinking(true);
-    
+
     const { bestMove, evaluation } = await engineRef.current.evaluatePosition(currentGame.fen(), modeDepth);
-    
+
     if (bestMove) {
       const move = currentGame.move(bestMove);
       const newGame = new Chess(currentGame.fen());
       setGame(newGame);
       setLastEval(evaluation);
       onEvaluationChange(evaluation);
-      
+      onSoundPlay?.("aiMove");
+      onMoveHistory?.(move.san, newGame.fen());
+
       const pressure = analyzePressure(newGame, lastEval, evaluation);
       onPressureUpdate(pressure);
-      
+
       if (!isAiVsAi) {
         if (pressure.pressureLevel === "CRITICAL" && previousHumanMove) {
-           onAIDialogue(AI_DIALOGUE.BLUNDER[Math.floor(Math.random() * AI_DIALOGUE.BLUNDER.length)]);
+          onAIDialogue(AI_DIALOGUE.BLUNDER[Math.floor(Math.random() * AI_DIALOGUE.BLUNDER.length)]);
         } else if (Math.random() > 0.7) {
-           onAIDialogue("Your position slowly crumbles."); 
+          onAIDialogue("Your position slowly crumbles.");
         }
       }
-      
+
       if (isAiVsAi && !newGame.isGameOver()) {
+        onTurnSwitch?.(); // Switch to the other AI's timer
         setTimeout(() => {
           executeEngineMove(newGame);
         }, 1000);
       } else if (!isAiVsAi) {
         setTimeout(() => {
-           updatePredictions(newGame);
+          onTurnSwitch?.(); // AI done thinking, switch back to human timer
+          updatePredictions(newGame);
         }, 500);
       }
     }
-    
+
     setIsEngineThinking(false);
   };
 
@@ -111,7 +124,7 @@ export default function ChessGame({
       const move = game.move({
         from: sourceSquare,
         to: targetSquare,
-        promotion: 'q', 
+        promotion: 'q',
       });
 
       if (move === null) return false;
@@ -120,9 +133,10 @@ export default function ChessGame({
       setGame(newGame);
       setMoveFrom(null); // Clear highlight on success
       onMoveComplete(move.san);
-      
+      onTurnSwitch?.(); // human played, switch to AI timer
+
       onPredictionReveal(true);
-      
+
       setTimeout(() => {
         onPredictionReveal(false);
         executeEngineMove(newGame, move.san);
@@ -158,32 +172,32 @@ export default function ChessGame({
 
   return (
     <div className="w-full max-w-2xl relative">
-       <div className="absolute inset-x-0 -bottom-10 h-10 w-full bg-[var(--cg-blue)] blur-[80px] opacity-20 -z-10" />
-       
-       <div className="chessgod-board p-2 rounded-xl glass">
-          <Chessboard
-            options={{
-              position: game.fen(),
-              onPieceDrop: onDrop,
-              onSquareClick: onSquareClick,
-              boardOrientation: "white",
-              darkSquareStyle: { backgroundColor: "#203050" },
-              lightSquareStyle: { backgroundColor: "#e2e8f0" },
-              animationDurationInMs: 300,
-              allowDragging: !isAiVsAi,
-              squareStyles: moveFrom ? {
-                [moveFrom]: {
-                  backgroundColor: "rgba(59, 130, 246, 0.5)",
-                  boxShadow: "inset 0 0 1px 2px rgba(59, 130, 246, 0.8)",
-                }
-              } : {},
-              boardStyle: {
-                borderRadius: "4px",
-                boxShadow: "0 0 20px rgba(0,0,0,0.5)",
+      <div className="absolute inset-x-0 -bottom-10 h-10 w-full bg-[var(--cg-blue)] blur-[80px] opacity-20 -z-10" />
+
+      <div className="chessgod-board p-2 rounded-xl glass">
+        <Chessboard
+          options={{
+            position: game.fen(),
+            onPieceDrop: onDrop,
+            onSquareClick: onSquareClick,
+            boardOrientation: "white",
+            darkSquareStyle: { backgroundColor: "#203050" },
+            lightSquareStyle: { backgroundColor: "#e2e8f0" },
+            animationDurationInMs: 300,
+            allowDragging: !isAiVsAi,
+            squareStyles: moveFrom ? {
+              [moveFrom]: {
+                backgroundColor: "rgba(59, 130, 246, 0.5)",
+                boxShadow: "inset 0 0 1px 2px rgba(59, 130, 246, 0.8)",
               }
-            }}
-          />
-       </div>
+            } : {},
+            boardStyle: {
+              borderRadius: "4px",
+              boxShadow: "0 0 20px rgba(0,0,0,0.5)",
+            }
+          }}
+        />
+      </div>
     </div>
   );
 }
