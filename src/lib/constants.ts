@@ -36,6 +36,15 @@ export const GAME_MODES = {
     predictiveEnabled: true,
     aiPersonalityEnabled: true,
   },
+  GOD_VS_GOD: {
+    id: "god-vs-god",
+    name: "God vs God",
+    description: "Watch two supreme intelligences battle.",
+    depth: 20,
+    adaptiveDepth: false,
+    predictiveEnabled: false,
+    aiPersonalityEnabled: false,
+  },
 };
 
 export const AI_DIALOGUE = {

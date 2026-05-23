@@ -10,7 +10,7 @@ export default function Home() {
       <AnimatedChessGrid />
 
       {/* Main Content */}
-      <div className="z-10 flex flex-col items-center justify-center text-center px-4 max-w-5xl">
+      <div className="relative z-20 flex flex-col items-center justify-center text-center px-4 max-w-5xl">
         <div className="stagger-children">
           {/* Title */}
           <h1 className="font-mono text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-blue-100 to-blue-500 text-glow-blue mb-4 animate-float">
@@ -25,7 +25,7 @@ export default function Home() {
           </h2>
 
           {/* Call to Action */}
-          <div className="mb-16">
+          <div className="mb-16 flex flex-col md:flex-row items-center justify-center gap-6">
             <Link
               href="/play"
               className="group relative inline-flex items-center justify-center px-8 py-4 font-mono font-bold text-lg md:text-xl tracking-widest text-white uppercase overflow-hidden glass hover:bg-blue-600/20 transition-all duration-300 animate-pulse-glow"
@@ -36,6 +36,15 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-blue-500/10 group-hover:bg-blue-500/20 transition-colors" />
               <span className="relative">Challenge God</span>
+            </Link>
+            
+            <Link
+               href="/play?mode=god-vs-god"
+               className="group relative inline-flex items-center justify-center px-6 py-3 font-mono font-bold text-sm md:text-base tracking-widest text-[var(--cg-gold)] uppercase overflow-hidden glass hover:bg-yellow-600/10 transition-all duration-300"
+               style={{ borderColor: "rgba(212, 168, 67, 0.4)" }}
+            >
+               <div className="absolute inset-0 bg-yellow-500/5 group-hover:bg-yellow-500/10 transition-colors" />
+               <span className="relative text-glow-gold">Watch God vs God</span>
             </Link>
           </div>
 
