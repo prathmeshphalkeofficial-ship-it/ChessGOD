@@ -33,23 +33,43 @@ export default function Home() {
       {/* Main Content */}
       <div className="relative z-20 flex flex-col items-center justify-center text-center px-4 max-w-5xl">
         <div className="stagger-children">
-          {/* Divine Eye Symbol */}
-          <div className="mb-6 animate-float">
+          {/* ChessGOD Logo - replacing eye emoji */}
+          <div className="mb-8 animate-float">
             <div className="relative inline-block">
-              <span className="text-6xl md:text-8xl filter drop-shadow-[0_0_30px_rgba(255,215,0,0.5)]">
-                👁
-              </span>
-              <div className="absolute inset-0 animate-pulse">
-                <div className="w-full h-full rounded-full" style={{
-                  background: "radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%)",
-                  filter: "blur(20px)",
+              {/* Outer glow ring */}
+              <div className="absolute inset-0 rounded-full" style={{
+                background: "radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%)",
+                filter: "blur(30px)",
+                animation: "pulse 3s ease-in-out infinite",
+                transform: "scale(1.5)",
+              }} />
+              
+              {/* Rotating ring */}
+              <div className="absolute inset-0 animate-spin" style={{
+                animationDuration: "10s",
+              }}>
+                <div className="w-40 h-40 md:w-52 md:h-52 rounded-full border-2" style={{
+                  borderImage: "linear-gradient(135deg, rgba(255, 215, 0, 0.6), rgba(59, 130, 246, 0.6)) 1",
+                  boxShadow: "0 0 30px rgba(255, 215, 0, 0.3)",
                 }} />
+              </div>
+              
+              {/* Main logo image */}
+              <div className="relative z-10">
+                <img 
+                  src="/chessgod.png" 
+                  alt="ChessGOD"
+                  className="w-32 h-32 md:w-40 md:h-40 object-contain mx-auto"
+                  style={{
+                    filter: "drop-shadow(0 0 40px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 80px rgba(255, 215, 0, 0.3))",
+                  }}
+                />
               </div>
             </div>
           </div>
 
           {/* Title with god-like golden effect */}
-          <h1 className="font-mono text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 animate-float"
+          <h1 className="font-mono text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-4 animate-float"
             style={{
               background: "linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%)",
               backgroundSize: "200% auto",
@@ -63,7 +83,7 @@ export default function Home() {
           </h1>
 
           {/* Subtitle */}
-          <h2 className="text-xl md:text-3xl font-light tracking-wide text-[var(--cg-text-dim)] mb-12">
+          <h2 className="text-lg md:text-2xl font-light tracking-wide text-[var(--cg-text-dim)] mb-12">
             Can Humanity Defeat{" "}
             <span 
               className="font-semibold"
@@ -202,6 +222,24 @@ export default function Home() {
               }}>Unknown_17</span>
             </div>
           </div>
+        </div>
+        
+        {/* Developer Credit */}
+        <div className="mt-12 mb-6">
+          <p className="font-mono text-xs text-[var(--cg-text-muted)] tracking-widest">
+            CRAFTED BY{" "}
+            <span 
+              className="font-bold"
+              style={{
+                background: "linear-gradient(135deg, #ffd700, #ffed4e)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              PRATHMESH PHALKE
+            </span>
+          </p>
         </div>
       </div>
 

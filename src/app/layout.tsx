@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
 
@@ -27,17 +26,32 @@ export const metadata: Metadata = {
     "chess game",
     "chess AI",
     "ChessGod",
+    "Prathmesh Phalke",
   ],
+  authors: [{ name: "Prathmesh Phalke" }],
+  creator: "Prathmesh Phalke",
   openGraph: {
     title: "CHESSGOD — Can Humanity Defeat God?",
     description:
       "Challenge the ultimate chess intelligence. Only 17 humans have ever won.",
     type: "website",
     images: ["/chessgod.png"],
+    siteName: "ChessGOD",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CHESSGOD — Can Humanity Defeat God?",
+    description: "Challenge the ultimate chess intelligence.",
+    images: ["/chessgod.png"],
   },
   icons: {
-    icon: "/chessgod.png",
-    apple: "/chessgod.png",
+    icon: [
+      { url: "/chessgod.png", sizes: "any" },
+    ],
+    apple: [
+      { url: "/chessgod.png", sizes: "180x180" },
+    ],
+    shortcut: "/chessgod.png",
   },
 };
 
@@ -52,10 +66,13 @@ export default function RootLayout({
       className={`${inter.variable} ${orbitron.variable} h-full antialiased`}
     >
       <head>
-        <link rel="icon" href="/chessgod.png" sizes="any" />
+        <link rel="icon" href="/chessgod.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/chessgod.png" />
+        <link rel="shortcut icon" href="/chessgod.png" />
         <meta name="theme-color" content="#050508" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="author" content="Prathmesh Phalke" />
       </head>
       <body className="min-h-full flex flex-col bg-[var(--cg-bg)] text-[var(--cg-text)]">
         {children}
