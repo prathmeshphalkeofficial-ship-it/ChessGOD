@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
 
@@ -32,6 +33,11 @@ export const metadata: Metadata = {
     description:
       "Challenge the ultimate chess intelligence. Only 17 humans have ever won.",
     type: "website",
+    images: ["/chessgod.png"],
+  },
+  icons: {
+    icon: "/chessgod.png",
+    apple: "/chessgod.png",
   },
 };
 
@@ -45,6 +51,12 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${orbitron.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="icon" href="/chessgod.png" sizes="any" />
+        <meta name="theme-color" content="#050508" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      </head>
       <body className="min-h-full flex flex-col bg-[var(--cg-bg)] text-[var(--cg-text)]">
         {children}
       </body>
